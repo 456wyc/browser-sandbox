@@ -188,7 +188,7 @@ browser-sandbox/
 静态项目站点（落地页 + 文档）位于 [`docs/`](docs/index.html) 目录，并通过 [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) 中的工作流自动部署到 **GitHub Pages**。
 
 - 线上地址：**https://456wyc.github.io/browser-sandbox/**
-- 每次推送 `main` 且改动 `docs/**` 时会自动重新部署。
+- 每次推送 `master` 且改动 `docs/**` 时会自动重新部署。
 - 本地预览：启动 `docs/` 目录的静态服务，例如 `npx serve docs`。
 
 如需在你的 Fork 中启用：**Settings → Pages → Build and deployment → Source: GitHub Actions**。

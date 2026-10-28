@@ -188,7 +188,7 @@ browser-sandbox/
 A static project site (landing page + docs) lives in the [`docs/`](docs/index.html) folder and is automatically deployed to **GitHub Pages** via the workflow in [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml).
 
 - Live site: **https://456wyc.github.io/browser-sandbox/**
-- It redeploys automatically on every push to `main` that touches `docs/**`.
+- It redeploys automatically on every push to `master` that touches `docs/**`.
 - To preview locally: serve the `docs/` directory, e.g. `npx serve docs`.
 
 To enable in your fork: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
