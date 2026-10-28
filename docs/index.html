@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Browser Sandbox Manager — run multiple isolated Chrome / Edge profiles side by side with custom badges, groups, and per-profile proxies." />
+  <title>Browser Sandbox Manager</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>" />
+</head>
+<body>
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="brand" href="#top">
+        <span class="brand__logo">🧪</span>
+        <span>Browser Sandbox</span>
+      </a>
+      <nav class="nav__links">
+        <a href="#features">功能</a>
+        <a href="#how">原理</a>
+        <a href="#install">安装</a>
+        <a href="#docs">文档</a>
+        <a class="btn btn--ghost" href="https://github.com/456wyc/browser-sandbox" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero__text">
+        <h1>同时运行<br />多个隔离的浏览器身份</h1>
+        <p class="hero__sub">
+          Browser Sandbox Manager 让你用独立的 <code>--user-data-dir</code> 并排启动多个
+          Chrome / Edge 配置，每个配置拥有独立 Cookie、会话、扩展与代理。
+          适合多账号管理、工作 / 个人分离，以及带代理的测试。
+        </p>
+        <div class="hero__cta">
+          <a class="btn btn--primary" href="#install">开始使用</a>
+          <a class="btn btn--ghost" href="https://github.com/456wyc/browser-sandbox" target="_blank" rel="noopener">在 GitHub 查看</a>
+        </div>
+        <div class="hero__tags">
+          <span class="tag">Tauri v2</span>
+          <span class="tag">Rust</span>
+          <span class="tag">React + Tailwind</span>
+          <span class="tag">MIT License</span>
+        </div>
+      </div>
+
+      <div class="hero__art" aria-hidden="true">
+        <div class="window">
+          <div class="window__bar">
+            <span class="dot dot--r"></span><span class="dot dot--y"></span><span class="dot dot--g"></span>
+            <span class="window__title">Browser Sandbox Manager</span>
+          </div>
+          <div class="window__body">
+            <aside class="mock-side">
+              <div class="mock-group">📁 工作</div>
+              <div class="mock-group">📁 个人</div>
+              <div class="mock-group mock-group--active">⚙️ 设置</div>
+            </aside>
+            <section class="mock-grid">
+              <div class="card"><span class="ic ic--chrome">C</span><b>Work A</b><i>badge: A1</i><span class="pill pill--green">启动</span></div>
+              <div class="card"><span class="ic ic--edge">E</span><b>Work B</b><i>proxy set</i><span class="pill pill--green">启动</span></div>
+              <div class="card"><span class="ic ic--chrome">C</span><b>Personal</b><i>no group</i><span class="pill pill--green">启动</span></div>
+              <div class="card card--add">+ 新建配置</div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section">
+      <h2 class="section__title">核心功能</h2>
+      <div class="cards">
+        <article class="feature">
+          <div class="feature__icon">🧩</div>
+          <h3>多浏览器支持</h3>
+          <p>自动检测 Windows / macOS / Linux 上的 Chrome 与 Edge 可执行文件。</p>
+        </article>
+        <article class="feature">
+          <div class="feature__icon">🔒</div>
+          <h3>完全隔离</h3>
+          <p>每个配置使用独立 <code>--user-data-dir</code>，Cookie、会话、扩展互不干扰。</p>
+        </article>
+        <article class="feature">
+          <div class="feature__icon">🏷️</div>
+          <h3>自定义角标图标</h3>
+          <p>在浏览器真实图标上绘制文字角标（最多 4 字符），Windows 任务栏一眼区分。</p>
+        </article>
+        <article class="feature">
+          <div class="feature__icon">🗂️</div>
+          <h3>配置分组</h3>
+          <p>按项目或用途组织配置，每个分组拥有独立颜色标识。</p>
+        </article>
+        <article class="feature">
+          <div class="feature__icon">🌐</div>
+          <h3>代理支持</h3>
+          <p>为每个配置单独设置代理（http / https / socks5，可选账号密码）。</p>
+        </article>
+        <article class="feature">
+          <div class="feature__icon">💾</div>
+          <h3>会话快照 & 导入导出</h3>
+          <p>记忆已打开的配置，并可将整套配置导出 / 合并导入到其他机器。</p>
+        </article>
+        <article class="feature">
+          <div class="feature__icon">🌏</div>
+          <h3>中英双语</h3>
+          <p>内置中文与英文界面，选择会本地保存。</p>
+        </article>
+        <article class="feature">
+          <div class="feature__icon">🌙</div>
+          <h3>现代深色界面</h3>
+          <p>基于 React + TailwindCSS 打造的清爽深色 UI。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="how" class="section section--alt">
+      <h2 class="section__title">工作原理</h2>
+      <div class="how">
+        <div class="how__step"><span class="how__num">1</span><p>为配置创建专属数据目录 <code>profiles/&lt;uuid&gt;/</code>。</p></div>
+        <div class="how__step"><span class="how__num">2</span><p>启动浏览器时传入 <code>--user-data-dir</code> 与可选 <code>--proxy-server</code>。</p></div>
+        <div class="how__step"><span class="how__num">3</span><p>每个浏览器作为独立进程运行，状态完全隔离。</p></div>
+        <div class="how__step"><span class="how__num">4</span><p>Windows 上通过 Win32 API 将带角标的图标写入窗口任务栏。</p></div>
+      </div>
+    </section>
+
+    <section id="install" class="section">
+      <h2 class="section__title">安装与构建</h2>
+      <div class="install">
+        <div class="install__col">
+          <h3>从源码构建</h3>
+          <p>前置条件：Node.js 18+、Rust、Tauri v2 依赖。</p>
+          <pre><code>git clone https://github.com/456wyc/browser-sandbox.git
+cd browser-sandbox
+npm install
+npm run tauri dev      # 开发模式
+npm run tauri build    # 生产安装包</code></pre>
+        </div>
+        <div class="install__col">
+          <h3>快速使用</h3>
+          <ol class="steps">
+            <li>点击 <b>新建配置</b>。</li>
+            <li>选择浏览器类型（Chrome / Edge）。</li>
+            <li>设置角标（如 <code>A1</code>、<code>Work</code>）。</li>
+            <li>可选：分组、默认网址、代理。</li>
+            <li>点击 <b>启动</b> 打开隔离浏览器。</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section id="docs" class="section section--alt">
+      <h2 class="section__title">文档与资源</h2>
+      <div class="links">
+        <a class="link-card" href="https://github.com/456wyc/browser-sandbox#readme">
+          <h3>📘 README</h3><p>完整功能说明、命令参考与项目结构。</p>
+        </a>
+        <a class="link-card" href="https://github.com/456wyc/browser-sandbox">
+          <h3>💻 源代码</h3><p>基于 Tauri v2 + Rust + React 的实现。</p>
+        </a>
+        <a class="link-card" href="https://v2.tauri.app/">
+          <h3>🛠️ Tauri</h3><p>了解驱动本应用的桌面框架。</p>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Browser Sandbox Manager · MIT License · Built with Tauri + Rust + React</p>
+    <p class="footer__small">本项目文档站通过 GitHub Pages 自动部署（<code>docs/</code> → Actions）。</p>
+  </footer>
+</body>
+</html>
